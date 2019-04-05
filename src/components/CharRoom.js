@@ -1,18 +1,40 @@
 import React, { Component } from 'react';
+import firebase from "firebase";
 
 class ChatRoom extends Component{
     constructor(){
         super();
+
+        var config = {
+            apiKey: "AIzaSyDbgzESR5T_Cg8lLps06HRbS8GQENzVoHI",
+            authDomain: "react-firebase-chat-2f396.firebaseapp.com",
+            databaseURL: "https://react-firebase-chat-2f396.firebaseio.com",
+            projectId: "react-firebase-chat-2f396",
+            storageBucket: "react-firebase-chat-2f396.appspot.com",
+            messagingSenderId: "417529116903"
+          };
+        firebase.initializeApp(config);
+
         this.updateMessage = this.updateMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.state = {
             message: '',
-            messages: [
-                {id: 0, text: 'hola'},
-                {id: 1, text: 'que tal'},
-                {id: 2, text: 'como estas'}
-            ]
+            messages: []
         }
+    }
+
+    componentDidMount(){
+        firebase.database().ref('messages/').on('value', snapshot => {
+            const currentMessages = snapshot.val();
+            if(currentMessages != null){
+                this.setState({
+                    messages: currentMessages
+                })
+            }
+            else{
+
+            }
+        })
     }
 
     updateMessage(e){
@@ -27,13 +49,9 @@ class ChatRoom extends Component{
             text: this.state.message
         }
 
-        let listMessages = this.state.messages;
-        listMessages.push(message);
-        this.setState({
-            messages: listMessages
-        })
+        firebase.database().ref('messages/' + message.id).set(message);
 
-        this.setState({message: ""})
+        this.setState({message: ''})
     }
 
     render(){
