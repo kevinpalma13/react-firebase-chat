@@ -6,12 +6,7 @@ class ChatRoom extends Component{
         super();
 
         var config = {
-            apiKey: "AIzaSyDbgzESR5T_Cg8lLps06HRbS8GQENzVoHI",
-            authDomain: "react-firebase-chat-2f396.firebaseapp.com",
-            databaseURL: "https://react-firebase-chat-2f396.firebaseio.com",
-            projectId: "react-firebase-chat-2f396",
-            storageBucket: "react-firebase-chat-2f396.appspot.com",
-            messagingSenderId: "417529116903"
+            //YOUR FIREBASE DATABASE CONFIG
           };
         firebase.initializeApp(config);
 
